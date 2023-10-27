@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class CarrinhoCompras {
 
-    private List<Produto> product;
     private List<Item> itens;
 
     public CarrinhoCompras() {
@@ -34,22 +33,33 @@ public class CarrinhoCompras {
      */
 
     public void adicionarItem(Produto produto, BigDecimal valorUnitario, int quantidade) {
-        if (quantidade <= 0) {
-            throw new CarrinhoException("A quantidade deve ser maior que zero.");
-        }
+	    if (quantidade <= 0) {
+	        throw new CarrinhoException("A quantidade deve ser maior que zero.");
+	    }
+	    
+	    if (valorUnitario.compareTo(BigDecimal.ZERO) < 0) {
+	        throw new CarrinhoException("O valor unitário não pode ser negativo.");
+	    }
 
-        for (Item item : itens) {
-            if (item.getProduto().getCodigo().equals(produto.getCodigo())) {
-                item.setQuantidade(item.getQuantidade() + quantidade);
+	    try {
+	        for (Item item : itens) {
+	            Produto itemProduto = item.getProduto();
 
-                if (valorUnitario != item.getValorUnitario()) {
-                    item.setValorUnitario(valorUnitario);
-                }
-            }
-        }
+	            if (itemProduto != null && itemProduto.getCodigo().equals(produto.getCodigo())) {
+	                item.setQuantidade(item.getQuantidade() + quantidade);
 
-        Item newItem = new Item(produto, valorUnitario, quantidade);
-        itens.add(newItem);
+	                if (!valorUnitario.equals(item.getValorUnitario())) {
+	                    item.setValorUnitario(valorUnitario);
+	                }
+	                return;
+	            }
+	        }
+
+	        Item newItem = new Item(produto, valorUnitario, quantidade);
+	        itens.add(newItem);
+	    } catch (CarrinhoException ex) {
+	        throw ex;
+	    }
     }
 
     /**
@@ -60,15 +70,14 @@ public class CarrinhoCompras {
      * caso o produto não exista no carrinho.
      */
     public boolean removerItem(Produto produto) {
-    	for (Produto prod: product) {
-    		if (product.equals(produto)) {
-    	    	product.remove(prod);
-    	    	
-    	    	return true;
-    		}
-    	}
-    	
-    	return false;
+        for (Item item : itens) {
+            Produto itemProduto = item.getProduto();
+            if (itemProduto != null && itemProduto.getCodigo().equals(produto.getCodigo())) {
+                itens.remove(item);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

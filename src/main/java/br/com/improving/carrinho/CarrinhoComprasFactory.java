@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class CarrinhoComprasFactory {
 	
-    private Map<String, CarrinhoCompras> carrinhos = new HashMap<>();
+	private Map<String, CarrinhoCompras> carrinhos = new HashMap<>();
     private List<CarrinhoCompras> cart;
 
 	public CarrinhoComprasFactory() {
@@ -25,17 +25,14 @@ public class CarrinhoComprasFactory {
      * @param identificacaoCliente
      * @return CarrinhoCompras
      */
-    public CarrinhoCompras criar(String identificacaoCliente) {
-    	if (carrinhos.containsKey(identificacaoCliente)) {
-    		
-    		return carrinhos.get(identificacaoCliente);
-		} else {
-		    CarrinhoCompras novoCarrinho = new CarrinhoCompras();
-		    carrinhos.put(identificacaoCliente, novoCarrinho);
-		    
-		    return novoCarrinho;
-		}
-    }
+	public CarrinhoCompras criar(String identificacaoCliente) {
+	    CarrinhoCompras carrinho = carrinhos.get(identificacaoCliente);
+	    if (carrinho == null) {
+	        carrinho = new CarrinhoCompras();
+	        carrinhos.put(identificacaoCliente, carrinho);
+	    }
+	    return carrinho;
+	}
 
     /**
      * Retorna o valor do ticket médio no momento da chamada ao método.
@@ -46,22 +43,23 @@ public class CarrinhoComprasFactory {
      *
      * @return BigDecimal
      */
-    public BigDecimal getValorTicketMedio() {
-		BigDecimal somaTotal = BigDecimal.ZERO;
-		int quantidaCarrinhos = cart.size();
-		
-		for (CarrinhoCompras carrinho : cart) {
-		    BigDecimal valorCarrinho = carrinho.getValorTotal();
-		    somaTotal = somaTotal.add(valorCarrinho);
-		}
-		
-		if (quantidaCarrinhos == 0) {
-		    return BigDecimal.ZERO;
-		}
-		
-		BigDecimal ticketMedio = somaTotal.divide(BigDecimal.valueOf(quantidaCarrinhos), 2, RoundingMode.HALF_UP);
-		return ticketMedio;
-    }
+	public BigDecimal getValorTicketMedio() {
+	    BigDecimal somaTotal = BigDecimal.ZERO;
+
+	    for (CarrinhoCompras carrinho : carrinhos.values()) {
+	        BigDecimal valorCarrinho = carrinho.getValorTotal();
+	        somaTotal = somaTotal.add(valorCarrinho);
+	    }
+
+	    int quantidadeCarrinhos = carrinhos.size();
+
+	    if (quantidadeCarrinhos == 0) {
+	        return BigDecimal.ZERO;
+	    }
+
+	    BigDecimal ticketMedio = somaTotal.divide(BigDecimal.valueOf(quantidadeCarrinhos), 2, RoundingMode.HALF_UP);
+	    return ticketMedio;
+	}
 
     /**
      * Invalida um carrinho de compras quando o cliente faz um checkout ou sua sessão expirar.

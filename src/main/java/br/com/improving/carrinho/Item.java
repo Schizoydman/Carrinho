@@ -59,9 +59,15 @@ public class Item {
         return valorUnitario.multiply(quantidadeBigDecimal);
     }
 
-	public void setValorUnitario(BigDecimal valorUnitario2) {
-	}
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
 
-	public void setQuantidade(int i) {
-	}
+    public void setValorUnitario(BigDecimal valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
 }
