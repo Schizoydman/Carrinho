@@ -19,6 +19,8 @@ public class Produto {
      * @param descricao
      */
     public Produto(Long codigo, String descricao) {
+    	this.codigo = codigo;
+    	this.descricao = descricao;
     }
 
     /**

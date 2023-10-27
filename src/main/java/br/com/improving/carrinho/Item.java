@@ -19,6 +19,9 @@ public class Item {
      * @param quantidade
      */
     public Item(Produto produto, BigDecimal valorUnitario, int quantidade) {
+        this.produto = produto;
+        this.valorUnitario = valorUnitario;
+        this.quantidade = quantidade;
     }
 
     /**
@@ -55,7 +58,6 @@ public class Item {
      */
     public BigDecimal getValorTotal() {
         BigDecimal quantidadeBigDecimal = BigDecimal.valueOf(quantidade);
-        
         return valorUnitario.multiply(quantidadeBigDecimal);
     }
 

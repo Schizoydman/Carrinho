@@ -24,8 +24,6 @@ public class CarrinhoDeComprasTest {
         produto2 = new Produto((long) 15, "Produto 2");
 
         item = new Item(produto1, new BigDecimal(10), 2);
-        System.out.println( "quantidade: " + item.getQuantidade() );
-        
         carrinho.adicionarItem(item.getProduto(), item.getValorUnitario(), item.getQuantidade());
     }
 
@@ -38,18 +36,18 @@ public class CarrinhoDeComprasTest {
         assertEquals(produto1, itemAdicionado.getProduto());
     }
 
-//    @Test
-//    public void testCalcularValorTotal() {
-//        carrinho.adicionarItem(produto1, new BigDecimal(10), 2);
-//        carrinho.adicionarItem(produto2, new BigDecimal(15), 3);
-//        BigDecimal valorTotal = carrinho.getValorTotal();
-//        assertEquals(new BigDecimal("85.00"), valorTotal);
-//    }
-//
-//    @Test
-//    public void testRemoverItem() {
-//        carrinho.adicionarItem(produto1, new BigDecimal(10), 2);
-//        assertTrue(carrinho.removerItem(produto1));
-//        assertFalse(carrinho.removerItem(produto2));
-//    }
+    @Test
+    public void testCalcularValorTotal() {
+        carrinho.adicionarItem(produto1, new BigDecimal(10), 2);
+        carrinho.adicionarItem(produto2, new BigDecimal(15), 3);
+        BigDecimal valorTotal = carrinho.getValorTotal();
+        assertEquals(new BigDecimal("85"), valorTotal);
+    }
+
+    @Test
+    public void testRemoverItem() {
+        carrinho.adicionarItem(produto1, new BigDecimal(10), 2);
+        assertTrue(carrinho.removerItem(produto1));
+        assertFalse(carrinho.removerItem(produto2));
+    }
 }

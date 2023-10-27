@@ -3,7 +3,6 @@ package br.com.improving.carrinho;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,7 +11,6 @@ import java.util.Map;
 public class CarrinhoComprasFactory {
 	
 	private Map<String, CarrinhoCompras> carrinhos = new HashMap<>();
-    private List<CarrinhoCompras> cart;
 
 	public CarrinhoComprasFactory() {
 	}
@@ -56,7 +54,7 @@ public class CarrinhoComprasFactory {
 	    if (quantidadeCarrinhos == 0) {
 	        return BigDecimal.ZERO;
 	    }
-
+	    
 	    BigDecimal ticketMedio = somaTotal.divide(BigDecimal.valueOf(quantidadeCarrinhos), 2, RoundingMode.HALF_UP);
 	    return ticketMedio;
 	}
